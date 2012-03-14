@@ -11,7 +11,11 @@ Version: 0.1
 
 function turn_body_blue($classes)
 {
-	$classes[] = "blue";
+	//echo $_SERVER['HTTP_USER_AGENT'];
+	
+	if (preg_match("/chrome/i", $_SERVER['HTTP_USER_AGENT']))
+		$classes[] = "blue";
+	
 	return $classes;
 }
 
