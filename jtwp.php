@@ -19,11 +19,11 @@ function turn_body_blue($classes)
 	return $classes;
 }
 
-if (preg_match("/chrome/i", $_SERVER['HTTP_USER_AGENT']))
+if (preg_match("/(iPhone|chrome)/i", $_SERVER['HTTP_USER_AGENT']))
 {
 	function change_template() 
 	{
-		return 'Starkers';
+		return 'jtwptheme';
 	}
 	
 	add_filter( 'template', "change_template" );
