@@ -19,6 +19,19 @@ function turn_body_blue($classes)
 	return $classes;
 }
 
+if (preg_match("/chrome/i", $_SERVER['HTTP_USER_AGENT']))
+{
+	function change_template() 
+	{
+		return 'Starkers';
+	}
+	
+	add_filter( 'template', "change_template" );
+	add_filter( "stylesheet", "change_template" );
+}
+
+
 add_filter( "body_class", "turn_body_blue" );
+
 
 ?>
