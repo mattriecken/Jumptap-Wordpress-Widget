@@ -21,7 +21,7 @@
 
 // Variables from Wordpress Plug-in UI
 $publisherAlias = get_option('jtwp_publisher_alias');
-$siteAlias = get_option('jtwp_site_alias');
+//$siteAlias = get_option('jtwp_site_alias');
 $spotAlias = get_option('jtwp_spot_alias');
 
 $wpLibVer = get_plugin_data('jtwp.php')
@@ -51,7 +51,7 @@ $adTap->setAdSpot($spotAlias);
 
 //A Site Id assigned by Jumptap. If this is not provided, the default site is used. 
 //To find your Site Id .Log into Publisher application system,click on the Administer Sites, and press Site Details  near the relevent site
-$adTap->setPublisherVariable('site', $siteAlias);
+//$adTap->setPublisherVariable('site', $siteAlias);
 
 //The IP Address of the device requesting the ad. 
 //This is used by tapLink and our Ad Providers for Carrier/Gateway targeting
