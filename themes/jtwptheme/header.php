@@ -54,7 +54,7 @@
 		</div>
 		
 		<div class="jumptap-ad">
-		<?php echo get_jumptap_ad(); ?>
+		<?php render_jumptap_ad(); ?>
 	   	</div> 
 
         <div data-role="content">

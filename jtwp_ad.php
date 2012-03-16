@@ -4,23 +4,35 @@
 // Switch them to JTWP if the request is from a handset
 if(get_option('jtwp_reroute_iphone') == 'on' && preg_match('/(chrom|iphone)/i', $_SERVER['HTTP_USER_AGENT']))
 {
-	switch_theme('jtwptheme','jtwptheme');
+	$reroute = (get_option('jtwp_reroute_iphone') == "on" || get_option('jtwp_reroute_android') == "on");
+	if ($reroute)
+		switch_theme('jtwptheme','jtwptheme');
 }
 
 
 
-function get_jumptap_ad()
+function render_jumptap_ad()
 {
-	$publisherAlias = get_option('jtwp_publisher_alias');
-	$adSpotAlias = get_option('jtwp_adspot_alias');
+	$reroute_iphone = get_option('jtwp_reroute_iphone');
 	
-	$request = new JumptapAdRequest();
-	$request->setPublisherAlias($publisherAlias);
-	$request->setAdSpotAlias($adSpotAlias);
+	if ($reroute_iphone == "on")
+	{
+		$publisherAlias = get_option('jtwp_publisher_alias');
+		$adSpotAlias = get_option('jtwp_adspot_alias');
+		
+		$request = new JumptapAdRequest();
+		$request->setPublisherAlias($publisherAlias);
+		$request->setAdSpotAlias($adSpotAlias);
+		
+		$manager = new JumptapAdManager();
+		
+		$html = $manager->requestAd($request)->getHtml();
+		
+		$display_iphone_position = get_option("jtwp_display_iphone_position");
+		
+		echo "<div id='adBox".ucwords($display_iphone_position)."'> $html </div>";
+	}
 	
-	$manager = new JumptapAdManager();
-	
-	return $manager->requestAd($request)->getHtml();
 }
 
 class JumptapAdManager
