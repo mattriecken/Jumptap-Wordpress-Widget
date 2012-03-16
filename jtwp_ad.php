@@ -108,7 +108,6 @@ class JumptapAdManager
 		}
 		$refererUrl = "http://" . urlencode($_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
 		$requestUrl .= "&url=$refererUrl";
-		$requestUrl .= "&ua=iPhone";
 
 		return $requestUrl;
 	}
