@@ -1,22 +1,36 @@
 		
 <?php
 
-// Switch them to JTWP if the request is from a handset
-if(get_option('jtwp_reroute_iphone') == 'on' && preg_match('/iPhone/i', $_SERVER['HTTP_USER_AGENT']))
+$reroute_iphone = get_option('jtwp_reroute_iphone');
+$reroute_android = get_option('jtwp_reroute_android');
+
+if ($reroute_iphone == 'on')
 {
-	$reroute = (get_option('jtwp_reroute_iphone') == "on" || get_option('jtwp_reroute_android') == "on");
-	if ($reroute)
-		//switch_theme('jtwptheme','jtwptheme');
-		add_filter('template','change_theme');
-		add_filter('option_template','change_theme');
-		add_filter('option_stylesheet','change_theme');
-		
-		function change_theme()
-		{
-			return "jtwptheme";
-		}
+	if (preg_match('/iPhone/i', $_SERVER['HTTP_USER_AGENT']))
+	{
+		jtwp_change_theme();
+	}
 }
 
+if ($reroute_android == "on")
+{
+	if (preg_match('/Android/i', $_SERVER['HTTP_USER_AGENT']))
+	{
+		jtwp_change_theme();
+	}
+}
+
+function jtwp_change_theme()
+{
+	add_filter('template','change_theme');
+	add_filter('option_template','change_theme');
+	add_filter('option_stylesheet','change_theme');
+	
+	function change_theme()
+	{
+		return "jtwptheme";
+	}
+}
 
 
 function render_jumptap_ad()
