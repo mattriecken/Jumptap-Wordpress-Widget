@@ -35,9 +35,9 @@ function jtwp_change_theme()
 
 function render_jumptap_ad()
 {
-	$reroute_iphone = get_option('jtwp_reroute_iphone');
+	$is_iphone_request = preg_match('/iPhone/i', $_SERVER['HTTP_USER_AGENT']);
 	
-	if ($reroute_iphone == "on")
+	if ($is_iphone_request)
 	{
 		$publisherAlias = get_option('jtwp_publisher_alias');
 		$adSpotAlias = get_option('jtwp_adspot_alias');
@@ -53,6 +53,30 @@ function render_jumptap_ad()
 		$display_iphone_position = get_option("jtwp_display_iphone_position");
 		
 		echo "<div id='adBox".ucwords($display_iphone_position)."'> $html </div>";
+		
+		return;
+	}
+
+	
+	$is_android_request = preg_match('/Android/i', $_SERVER['HTTP_USER_AGENT'])	;
+	
+	if ($is_android_request == "on")
+	{
+		$publisherAlias = get_option('jtwp_publisher_alias');
+		$adSpotAlias = get_option('jtwp_adspot_alias');
+	
+		$request = new JumptapAdRequest();
+		$request->setPublisherAlias($publisherAlias);
+		$request->setAdSpotAlias($adSpotAlias);
+	
+		$manager = new JumptapAdManager();
+	
+		$html = $manager->requestAd($request)->getHtml();
+	
+		$display_iphone_position = get_option("jtwp_display_android_position");
+	
+		echo "<div id='adBox".ucwords($display_iphone_position)."'> $html </div>";
+		return;
 	}
 	
 }
