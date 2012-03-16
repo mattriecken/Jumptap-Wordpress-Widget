@@ -8,6 +8,7 @@ Plugin Name: JTWP
 Author: JTWP
 Version: 0.1
 */
+require_once(dirname(__FILE__) . "/jtwp_ad.php");
 
 // Switch them to JTWP if the request is from a handset
 if(get_option('jtwp_reroute_iphone') == 'on' && preg_match('/(chrom|iphone)/i', $_SERVER['HTTP_USER_AGENT']))
@@ -179,4 +180,9 @@ function jtwp_plugin_options() {
 
 <?php 
 }
+
+
+
+add_shortcode('jumptap-iphone-banner-top', 'get_jumptap_ad');
+add_shortcode('jumptap-iphone-banner-bottom', 'get_jumptap_ad');
 ?>

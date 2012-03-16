@@ -1,5 +1,8 @@
 		
 <?php
+
+function get_jumptap_ad()
+{
 // Jumptap Publisher Integration Code
 // Language: PHP
 // Version: 1.0.0
@@ -22,13 +25,13 @@
 // Variables from Wordpress Plug-in UI
 $publisherAlias = get_option('jtwp_publisher_alias');
 //$siteAlias = get_option('jtwp_site_alias');
-$spotAlias = get_option('jtwp_spot_alias');
+$spotAlias = get_option('jtwp_adspot_alias');
 
-$wpLibVer = get_plugin_data('jtwp.php')
+//$wpLibVer = get_plugin_data('jtwp.php');
 
-echo $publisherAlias;
-echo $wpLibVer;
-exit();
+// echo $publisherAlias;
+// echo $wpLibVer;
+// exit();
 
 
 // Jumptap Publisher Integration Test Code
@@ -111,176 +114,178 @@ $adTap->setAdSpot($spotAlias);
 /////////////////////////////////
 // Do not edit below this line //
 /////////////////////////////////
-$adTap->requestAd();
-?>
-<?php echo $adTap->getResponse(); ?>
+return $adTap->requestAd();
+}
 
-<?php
+
 class adTap {
-  //var $headerMappings = array();
-  var $publisherAlias; // required
-  var $adSpot;
-  var $response;
-  var $publisherVariables = array();
-  var $baseRequestURL;
+	//var $headerMappings = array();
+	var $publisherAlias; // required
+	var $adSpot;
+	var $response;
+	var $publisherVariables = array();
+	var $baseRequestURL;
 
-  // *** initializer ***
-  function adTap() {
-  }
+	// *** initializer ***
+	function adTap() {
+	}
 
-  function setPublisherVariable($key, $value) {
-    if (validatePublisherVariable($key)) {
-      $this->publisherVariables[$key] = $value;
-    }
-  }
+	function setPublisherVariable($key, $value) {
+		if (validatePublisherVariable($key)) {
+			$this->publisherVariables[$key] = $value;
+		}
+	}
 
-  function setAdSpot($adSpot) {
-    $this->adSpot = $adSpot;
-  }
-  
-  function setBaseRequestURL($baseRequestURL) {
-    $this->baseRequestURL = $baseRequestURL;
-  }
-  
-   function setPublisherAlias($publisherAlias) {
-    $this->publisherAlias = $publisherAlias;
-  }
-  
-  function getTargetingParams(){
-    $jtTargetingParams = '';
-    foreach ($this->publisherVariables as $key => $value){
-      $jtTargetingParams .= (!empty($value)) ? '&' . $key . '=' . $value : null;
-    }
-    return $jtTargetingParams;
-  }
+	function setAdSpot($adSpot) {
+		$this->adSpot = $adSpot;
+	}
 
-  function requestAd($adSpot = '') {
-    // if no adSpot is supplied, use the one 
-    // that was previously set
-    if (!$adSpot) { $adSpot = $this->adSpot; }
-    if (!$adSpot) { 
-      // signal an error and do nothing
-      trigger_error("adTap: No spot ID supplied", E_USER_WARNING);
-      return;
-    }
-    $requestURL = $this->baseRequestURL . "?pub=" . $this->publisherAlias . "&spot=" . $adSpot;
-    $targetingParams = $this->getTargetingParams();
-	$pageURL = urlencode($_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
-    $queryString =$targetingParams . '&url=http://' . $pageURL;
-    $requestURL = $requestURL . $queryString;
-    $this->response = $this->getURLWithTapLinkHeaders($requestURL);
-    return $this->response;
-  }
+	function setBaseRequestURL($baseRequestURL) {
+		$this->baseRequestURL = $baseRequestURL;
+	}
 
-  function processXJTHeader($headerArray) {
-    foreach ($headerArray as $header) {
-            if (strpos($header, 'XJT-UserId: ') === 0) {
-                    $xjt = substr($header, 12);
-                    $expires = time()+(60*60*24*365);
-                   setcookie('XJT-UserId', $xjt, $expires, "/");
-            }
-    }
-  }
+	function setPublisherAlias($publisherAlias) {
+		$this->publisherAlias = $publisherAlias;
+	}
+
+	function getTargetingParams(){
+		$jtTargetingParams = '';
+		foreach ($this->publisherVariables as $key => $value){
+			$jtTargetingParams .= (!empty($value)) ? '&' . $key . '=' . $value : null;
+		}
+		return $jtTargetingParams;
+	}
+
+	function requestAd($adSpot = '') {
+		// if no adSpot is supplied, use the one
+		// that was previously set
+		if (!$adSpot) {
+			$adSpot = $this->adSpot;
+		}
+		if (!$adSpot) {
+		// signal an error and do nothing
+		trigger_error("adTap: No spot ID supplied", E_USER_WARNING);
+		return;
+		}
+		$requestURL = $this->baseRequestURL . "?pub=" . $this->publisherAlias . "&spot=" . $adSpot;
+		$targetingParams = $this->getTargetingParams();
+		$pageURL = urlencode($_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
+		$queryString =$targetingParams . '&url=http://' . $pageURL;
+		$requestURL = $requestURL . $queryString;
+		$this->response = $this->getURLWithTapLinkHeaders($requestURL);
+		return $this->response;
+	}
+
+	function processXJTHeader($headerArray) {
+	foreach ($headerArray as $header) {
+	if (strpos($header, 'XJT-UserId: ') === 0) {
+	$xjt = substr($header, 12);
+	$expires = time()+(60*60*24*365);
+	setcookie('XJT-UserId', $xjt, $expires, "/");
+	}
+	}
+	}
 
 	function getURLWithTapLinkHeaders($reqUrl) {
-	  // headers will be an associative array mapping header names onto
-	  // values
-	  $exclusions = array("HTTP_HOST", "HTTP_KEEP_ALIVE", "HTTP_CONNECTION", "HTTP_COOKIE", "HTTP_CACHE_CONTROL");
-	  $httpHeader = "";
-	  $gotXFF = false;
-	  foreach ($_SERVER as $header => $value) {
+	// headers will be an associative array mapping header names onto
+	// values
+	$exclusions = array("HTTP_HOST", "HTTP_KEEP_ALIVE", "HTTP_CONNECTION", "HTTP_COOKIE", "HTTP_CACHE_CONTROL");
+		$httpHeader = "";
+		$gotXFF = false;
+		foreach ($_SERVER as $header => $value) {
 		if (substr($header, 0, 4) == 'HTTP' && !(in_array($header, $exclusions)) && isset($value)) {
-		  $rewrittenHeader = $this->rewriteHeader($header);
-		  if ($rewrittenHeader == 'X-Forwarded-For'){
+		$rewrittenHeader = $this->rewriteHeader($header);
+		if ($rewrittenHeader == 'X-Forwarded-For'){
 		$gotXFF = true;
 		$value = $value . ',' . $_SERVER['REMOTE_ADDR'];
-		  }
-		  $httpHeader = $httpHeader . $rewrittenHeader . ": " . $value . "\r\n";
-		}}
-	  if (!$gotXFF) {
+		}
+		$httpHeader = $httpHeader . $rewrittenHeader . ": " . $value . "\r\n";
+		}
+		}
+		if (!$gotXFF) {
 		// make sure that there is always an X-Forwarded-For header
 		$httpHeader = $httpHeader . 'X-Forwarded-For' . ": " . $_SERVER['REMOTE_ADDR'] . "\r\n";
-	  }
-	
-	  // if there is a XJT-UserId cookie supplied, make sure the cookie is
+		}
+
+		// if there is a XJT-UserId cookie supplied, make sure the cookie is
 	  // passed to Jumptap as the appropriate header
 	  $xjt_uid = isset($_COOKIE['XJT-UserId']) ? $_COOKIE['XJT-UserId'] : null;
 	  if ($xjt_uid) {
-		$httpHeader = $httpHeader . "XJT-UserId" . ": " . $xjt_uid . "\r\n";
-	  }
-	
+	  $httpHeader = $httpHeader . "XJT-UserId" . ": " . $xjt_uid . "\r\n";
+	}
+
 	  $httpOpts = array("http" => array("header" => $httpHeader));
 	  $context = stream_context_create($httpOpts);
-	
+
 	  $answer = file_get_contents($reqUrl, 'r', $context);
 	  $this->processXJTHeader($http_response_header);
 	  return $answer;
 	}
 
 	function rewriteHeader($headerString) {
-		//global $headerMappings;
-		$headerMappings = array();
-		if (isset($headerMappings[$headerString])) return $headerMappings[$headerString];
+	//global $headerMappings;
+	$headerMappings = array();
+	if (isset($headerMappings[$headerString])) return $headerMappings[$headerString];
 
-		$header = substr($headerString, 5); // strip off HTTP_                                                                                             
+		$header = substr($headerString, 5); // strip off HTTP_
 		$words = explode("_", $header);
 		$newWords = array();
 		foreach ($words as $word) {
-			$newWords[] = ucfirst(strtolower($word));
-		}
-			$mapping = implode("-", $newWords);
-		$headerMappings[$headerString] = $mapping;
-		return $mapping;
+		$newWords[] = ucfirst(strtolower($word));
+	}
+	$mapping = implode("-", $newWords);
+	$headerMappings[$headerString] = $mapping;
+	return $mapping;
 	}
 
-  function getResponse() {
-    return $this->response;
-  }
-}
+	function getResponse() {
+	return $this->response;
+	}
+	}
 
-function validateResponseFormat($format) {
-  switch ($format) {
-  case "xhtml":
-  case "xml":
-    return true;
-    break;
-  default:
-    trigger_error("adTap: invalid response format: ($format)", E_USER_WARNING); 
-    return false;
-    break;
-  }
+	function validateResponseFormat($format) {
+	switch ($format) {
+	case "xhtml":
+	case "xml":
+	return true;
+	break;
+	default:
+	trigger_error("adTap: invalid response format: ($format)", E_USER_WARNING);
+	return false;
+	break;
+}
 }
 
 function validatePublisherVariable($name) {
-  switch ($name) {
-  case "country":
-  case "loc":
-  case "mt-gender":
-  case "mt-age":
-  case "mt-ethnicity":
-  case "mt-areacode":
-  case "mt-hhi":
-  case "mt-site_traffic_source":
-  case "mt-sitecategory":
-  case "mt-pagecategory":
-  case "ll":
-  case "l":
-  case "c":
-  case "p":
-  case "operator":
-  case "category":
-  case "pc":
-  case "hid":
-  case "u":
-  case "url":
-  case "a":
-  case "site":
-    return true;
-    break;
-  default:
-    trigger_error("adTap: invalid publisher variable: ($name)", E_USER_WARNING);
-    return false;
-    break;
-  }
-}
+	switch ($name) {
+	case "country":
+	case "loc":
+		case "mt-gender":
+		case "mt-age":
+		case "mt-ethnicity":
+		case "mt-areacode":
+		case "mt-hhi":
+		case "mt-site_traffic_source":
+		case "mt-sitecategory":
+		case "mt-pagecategory":
+		case "ll":
+		case "l":
+		case "c":
+			case "p":
+			case "operator":
+			case "category":
+			case "pc":
+			case "hid":
+			case "u":
+			case "url":
+			case "a":
+			case "site":
+			return true;
+			break;
+			default:
+			trigger_error("adTap: invalid publisher variable: ($name)", E_USER_WARNING);
+			return false;
+			break;
+			}
+		}
 ?>
