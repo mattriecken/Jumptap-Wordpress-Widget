@@ -1,0 +1,14 @@
+body
+{
+	font-size: 1em;
+}
+
+li 
+{
+	line-height: 20px;
+}
+
+ul li input
+{
+	width: 200px;
+}
