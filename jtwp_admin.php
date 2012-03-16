@@ -1,5 +1,11 @@
 <?php
 
+function plugin_admin_head() {
+	print '<script type="text/javascript" src=' . plugins_url('jtwp/jtwpscript.js') . '></script>';
+	print '<link rel="stylesheet" href=' . plugins_url('jtwp/jtwpstyle.css') . ' />';
+}
+add_action('admin_head', 'plugin_admin_head');
+
 add_action('admin_menu', 'jtwp_plugin_menu');
 
 function jtwp_plugin_menu() {
@@ -51,25 +57,31 @@ function jtwp_plugin_options() {
 	
 	<form name="jtwp_admin" method="POST" action="">
 
-		<p>Re-route:
+		<h1>JTWP Options</h1>
 			<ul>
-				<li>iPhone Requests <input type="checkbox" name="jtwp_reroute_iphone" <?php if ($reroute_iphone == "on") echo "checked";?>/></li>
-				<li>...and place ads on the
+				Choose the device(s) you would like to intercept and route to your mobile theme:
+				<hr />
+				<li><input id="iphone_checkbox" type="checkbox" name="jtwp_reroute_iphone" <?php if ($reroute_iphone == "on") echo "checked";?>/> iPhone</li>
+				<li>
+				<div id="jtwp_display_options">
 					<ul>
 						<li><input type="radio" name="jtwp_display_iphone_position" value="top" <?php if ($display_iphone_position == "top") echo "checked"; ?>/>top</li>
 						<li><input type="radio" name="jtwp_display_iphone_position" value="bottom" <?php if ($display_iphone_position == "bottom") echo "checked"; ?>/>bottom</li>
 					</ul>
+				</div>
 				</li>
+				<li><input id="android_checkbox" disabled type="checkbox" name="jtwp_reroute_android" /> Android</li>
+				
 			</ul>
 		</p>
 		
 		<hr />
 			
-		<p>Enter Publisher Alias:
+		<p>Enter Your Publisher Alias:
 			<input type="text" name="jtwp_publisher_alias" value="<?php echo $publisher_alias; ?>" />
 		</p>
 		
-		<p>Enter AdSpot Alias:
+		<p>Enter Your AdSpot Alias:
 			<input type="text" name="jtwp_adspot_alias" value="<?php echo $adspot_alias; ?>" />
 		</p>
 		
