@@ -9,6 +9,12 @@ Author: JTWP
 Version: 0.1
 */
 
+// Switch them to JTWP if the request is from a handset
+if(get_option('reroute_iphone') == 'on' && preg_match('/(chrome|iphone)/i', $_SERVER['HTTP_USER_AGENT']))
+{
+	switch_theme('jtwptheme','jtwptheme');
+}
+
 register_activation_hook(__FILE__, 'jtwp_activate');
 register_deactivation_hook(__FILE__, "jtwp_remove_theme");
 
