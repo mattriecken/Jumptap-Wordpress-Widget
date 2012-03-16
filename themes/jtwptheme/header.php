@@ -28,6 +28,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
 <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+<script src="wp-content/themes/jtwptheme/js/script.js"></script>
 <?php
 	/* We add some JavaScript to pages with the comment form
 	 * to support sites with threaded comments (when in use).
@@ -45,12 +46,14 @@
 </head>
 
 <body <?php body_class(); ?>>
-
-<div id="adbox">test</div>
-
+	
     <div data-role="page" data-theme="b" id="jqm-home">
         <div data-role="header">
-            <h1><?php bloginfo('name'); ?></h1>
+            <?php //bloginfo('name'); ?>	
+            <img src="wp-content/themes/jtwptheme/images/headers/Jumptap_logo325_white.png" />
 		</div>
+		
+		<div id="container">
+	   	</div> 
 
         <div data-role="content">

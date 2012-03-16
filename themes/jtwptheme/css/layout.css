@@ -13,20 +13,25 @@
 br.clear { clear:both; display:block; height:1px; margin:-1px 0 0 0 } /* Use this br class to clear your floated columns */
 li#theme-switcher { background:#fff; border:10px solid red; padding:20px; position:fixed; top:0; right:0 } /* Use this if you have the Theme Switcher Reloaded plugin (http://themebot.com/webmaster-tools/1-wordpress-theme-switcher-reloaded) installed and want to make it nice and obvious */
 
-body
-{
-	margin: 50px !important;
-}
-
-#adbox
+/* Ad Positions */
+#adBoxTop
 {
 	height: 50px;
 	width: 100%;
-	background: red;
-	position: fixed;
-	bottom: 0;
 	z-index: 1000;
+	background: #fff;
 }
+
+#adBoxBottom
+{
+	height: 50px;
+	width: 100%;
+	z-index: 1000;
+	position: fixed;
+	background: #fff;
+	bottom: 0;
+}
+
 
 #footer-content
 {

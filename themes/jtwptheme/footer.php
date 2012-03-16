@@ -5,9 +5,12 @@
 	<div id="footer-content">
 		<a href="#jqm-home" data-role="button" data-icon="arrow-u">Up</a>
 	</div>
+	<div id="credit">
+	</div>
 </div> 
 
 </div><!-- data role page -->
+
 
     
 </body>

@@ -12,8 +12,8 @@
  * @since Starkers 3.0
  */
 
-get_header(); ?>
-
+get_header(); ?>        
+        
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 					<?php if ( is_front_page() ) { ?>
