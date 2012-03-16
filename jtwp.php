@@ -12,12 +12,6 @@ Version: 0.1
 require_once(dirname(__FILE__) . "/jtwp_admin.php");
 require_once(dirname(__FILE__) . "/jtwp_ad.php");
 
-// Switch them to JTWP if the request is from a handset
-if(get_option('jtwp_reroute_iphone') == 'on' && preg_match('/(chrom|iphone)/i', $_SERVER['HTTP_USER_AGENT']))
-{
-	switch_theme('jtwptheme','jtwptheme');
-}
-
 register_activation_hook(__FILE__, 'jtwp_activate');
 register_deactivation_hook(__FILE__, "jtwp_remove_theme");
 
