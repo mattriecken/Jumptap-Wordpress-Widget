@@ -49,8 +49,18 @@
 	
     <div data-role="page" data-theme="b" id="jqm-home">
         <div data-role="header">
-            <?php //bloginfo('name'); ?>	
-            <img src="wp-content/themes/jtwptheme/images/headers/Jumptap_logo325_white.png" />
+            <?php 
+				if (get_option('jtwp_image_header'))
+				{
+					echo "<img src='" . get_option('jtwp_image_header') . "' />";
+				}
+				else
+				{
+					bloginfo('name');
+				}
+			?>
+          
+            <!-- <img src="wp-content/themes/jtwptheme/images/headers/Jumptap_logo325_white.png" /> -->
 		</div>
 		
 		<div class="jumptap-ad">
