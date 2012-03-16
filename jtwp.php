@@ -15,11 +15,7 @@ register_deactivation_hook(__FILE__, "jtwp_remove_theme");
 // Switch them to JTWP if the request is from a handset
 if(get_option('reroute_iphone') == 'on' && preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']))
 {
-	switch_theme('jtwptheme','jtwptheme'if(get_option('reroute_iphone') == 'on' && preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']))
-{
 	switch_theme('jtwptheme','jtwptheme');
-}
-	);
 }
 
 
