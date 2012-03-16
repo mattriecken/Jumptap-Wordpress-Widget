@@ -52,26 +52,42 @@ function jtwp_plugin_options() {
 		$adspot_alias = $_POST['jtwp_adspot_alias'];
 		update_option('jtwp_adspot_alias', $adspot_alias);
 	}
+	
+	$image_header = get_option('jtwp_image_header');
+	if (isset($_POST['jtwp_image_header']))
+	{
+		$image_header = $_POST['jtwp_image_header'];
+		update_option('jtwp_image_header', $image_header);
+	}
 
 	?>
 	
 	<form name="jtwp_admin" method="POST" action="">
-
+	<?php if($_POST){ ?>
+		<div id="saveChangesMessage">Your changes have been saved!</div>
+	<?php }?>
 		<h1>JTWP Options</h1>
 			<ul>
 				Choose the device(s) you would like to intercept and route to your mobile theme:
 				<hr />
 				<li><input id="iphone_checkbox" type="checkbox" name="jtwp_reroute_iphone" <?php if ($reroute_iphone == "on") echo "checked";?>/> iPhone</li>
 				<li>
-				<div id="jtwp_display_options">
+				<div id="jtwp_display_iphone_options">
 					<ul>
 						<li><input type="radio" name="jtwp_display_iphone_position" value="top" <?php if ($display_iphone_position == "top") echo "checked"; ?>/>top</li>
 						<li><input type="radio" name="jtwp_display_iphone_position" value="bottom" <?php if ($display_iphone_position == "bottom") echo "checked"; ?>/>bottom</li>
 					</ul>
 				</div>
 				</li>
-				<li><input id="android_checkbox" disabled type="checkbox" name="jtwp_reroute_android" /> Android</li>
-				
+				<li><input id="android_checkbox" type="checkbox" name="jtwp_reroute_android" /> Android</li>
+				<li>
+				<div id="jtwp_display_android_options">
+					<ul>
+						<li><input type="radio" name="jtwp_display_android_position" value="top" <?php if ($display_iphone_position == "top") echo "checked"; ?>/>top</li>
+						<li><input type="radio" name="jtwp_display_android_position" value="bottom" <?php if ($display_iphone_position == "bottom") echo "checked"; ?>/>bottom</li>
+					</ul>
+				</div>
+				</li>
 			</ul>
 		</p>
 		
@@ -86,9 +102,12 @@ function jtwp_plugin_options() {
 		</p>
 		
 		<hr />
+		
+		<p>URL to your Site Image Header (max: 320x100 px):</p>
+		<input type="text" name="jtwp_image_header" value="<?php echo $image_header; ?>" />
 
 		<p class="submit">
-			<input type="submit" name="Submit" class="button-primary" value="Save Changes" />
+			<input type="submit" name="Submit" id="saveChanges" class="button-primary" value="Save Changes" />
 		</p>
 
 </form>

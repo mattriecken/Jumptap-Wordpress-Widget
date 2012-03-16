@@ -12,3 +12,12 @@ ul li input
 {
 	width: 200px;
 }
+
+#saveChangesMessage
+{
+	display: block;
+	height: 20px;
+	padding: 10px;
+	background: #ccc;
+	border: 1px solid #000;
+}
